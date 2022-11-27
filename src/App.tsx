@@ -42,7 +42,11 @@ export default function App() {
         <Box sx={{ marginBottom: "14px" }}>&nbsp;</Box>
         <Masonry columns={3} spacing={2}>
           {itemData.map((item, index) => (
-            <div key={index} onClick={() => setOpen(item)}>
+            <div
+              key={index}
+              onClick={() => setOpen(item)}
+              style={{ cursor: "pointer" }}
+            >
               <img
                 src={`${item.img}?w=162&auto=format`}
                 srcSet={`${item.img}?w=162&auto=format&dpr=2 2x`}
