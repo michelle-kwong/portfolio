@@ -13,13 +13,18 @@ const style = {
   outline: "none",
 };
 
+interface Image {
+  title: string;
+  img: string;
+}
+
 export default function App() {
-  const [open, setOpen] = useState(false);
+  const [open, setOpen] = useState<Image | null>(null);
   return (
     <>
       <Modal
         open={!!open}
-        onClose={() => setOpen(false)}
+        onClose={() => setOpen(null)}
         aria-labelledby="modal-modal-title"
         aria-describedby="modal-modal-description"
       >
@@ -28,10 +33,10 @@ export default function App() {
             style={{
               width: "100%",
             }}
-            src={open.img}
+            src={open?.img}
           />
           <Box style={{ color: "black", textAlign: "center" }}>
-            {open.title}
+            {open?.title}
           </Box>
         </Box>
       </Modal>
@@ -70,11 +75,11 @@ export default function App() {
 const itemData = [
   {
     img: "https://imgur.com/Pkbydys.jpg",
-    title: "嫲嫲"
+    title: "嫲嫲",
   },
   {
     img: "https://imgur.com/GFggusN.jpg",
-    title: "exhalation"
+    title: "exhalation",
   },
   {
     img: "https://imgur.com/XFz970l.jpg",
@@ -85,7 +90,7 @@ const itemData = [
     title: "notorious",
   },
   {
-    img:"https://imgur.com/hXzeqXK.jpg",
+    img: "https://imgur.com/hXzeqXK.jpg",
     title: "her",
   },
 
