@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Box, Modal } from "@mui/material";
 import Masonry from "@mui/lab/Masonry";
 import "./App.css";
@@ -8,7 +8,8 @@ const style = {
   top: "50%",
   left: "50%",
   transform: "translate(-50%, -50%)",
-  width: 400,
+  width: "80%",
+  maxWidth: 650,
   bgcolor: "background.paper",
   outline: "none",
 };
@@ -18,8 +19,60 @@ interface Image {
   img: string;
 }
 
+function Card({ open }: { open: Image | null }) {
+  const [fade, setFade] = useState(false);
+  useEffect(() => {
+    setTimeout(() => {
+      setFade(true);
+    }, 20);
+  }, []);
+  return (
+    <Box sx={{ ...style }}>
+      <div
+        className={`title ${fade ? "fade" : ""} ${
+          open?.title === "ethereal" ? "white-text" : ""
+        }`}
+      >
+        {open?.title}
+      </div>
+      <img className="card-image" src={open?.img} />
+    </Box>
+  );
+}
+
 export default function App() {
   const [open, setOpen] = useState<Image | null>(null);
+  const [small, setSmall] = useState(false);
+
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      window.addEventListener("scroll", () =>
+        setSmall(window.pageYOffset > 150)
+      );
+    }
+  }, []);
+
+  useEffect(() => {
+    function handleKeyup(e: { code: string }) {
+      if (!!open) {
+        if (e.code === "ArrowLeft") {
+          const i = itemData.findIndex((x) => x.img === open.img);
+          setOpen((s) => itemData[i === 0 ? itemData.length - 1 : i - 1]);
+        }
+        if (e.code === "ArrowRight") {
+          const i = itemData.findIndex((x) => x.img === open.img);
+          setOpen((s) => itemData[i === itemData.length - 1 ? 0 : i + 1]);
+        }
+      }
+    }
+    if (typeof window !== "undefined") {
+      window.addEventListener("keyup", handleKeyup);
+    }
+    return () => {
+      window.removeEventListener("keyup", handleKeyup);
+    };
+  }, [open]);
+
   return (
     <>
       <Modal
@@ -28,24 +81,14 @@ export default function App() {
         aria-labelledby="modal-modal-title"
         aria-describedby="modal-modal-description"
       >
-        <Box sx={{ ...style }}>
-          <img
-            style={{
-              width: "100%",
-            }}
-            src={open?.img}
-          />
-          <Box style={{ color: "black", textAlign: "center" }}>
-            {open?.title}
-          </Box>
-        </Box>
+        <Card open={open} />
       </Modal>
-      <Box sx={{ width: 500, minHeight: 829 }}>
-        <h2>Michelle Kwong</h2>
-        <h3>Portfolio</h3>
-        <hr />
-        <Box sx={{ marginBottom: "14px" }}>&nbsp;</Box>
-        <Masonry columns={3} spacing={2}>
+      <Box sx={{ width: "88vw", minHeight: 829 }}>
+        <div className={`logo ${small ? "invert" : ""}`}>
+          &nbsp;&nbsp;Michelle Kwong <span>Portfolio</span>
+        </div>
+        <Box sx={{ marginBottom: "20px" }}>&nbsp;</Box>
+        <Masonry columns={{ xs: 2, sm: 3 }} spacing={{ xs: 2, sm: 1 }}>
           {itemData.map((item, index) => (
             <div
               key={index}
@@ -96,7 +139,7 @@ const itemData = [
 
   {
     img: "https://imgur.com/dUWlbQL.jpg",
-    title: "in sickness and in health",
+    title: "",
   },
   {
     img: "https://imgur.com/xmIldyF.jpg",

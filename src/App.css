@@ -1,20 +1,87 @@
 #root {
   max-width: 1280px;
   margin: 0 auto;
-  padding: 2rem;
   text-align: center;
 }
 
 .logo {
-  height: 6em;
-  padding: 1.5em;
-  will-change: filter;
+  font-family: "La Belle Aurore", cursive;
+  font-size: 40px;
+  position: fixed;
+  top: 0px;
+  left: 0px;
+  width: 100%;
+  text-align: left;
+  line-height: 2;
+  color: rgba(72, 72, 72, 0.87);
+  background-color: rgba(249, 249, 249, 0.82);
+  transition: all 0.2s ease;
 }
+
+@media only screen and (max-width: 600px) {
+  .logo {
+    font-size: 28px;
+  }
+
+  .logo span {
+    font-family: CMU Bright, Inter, Avenir, Helvetica, Arial, sans-serif;
+    font-size: 22px !important;
+  }
+
+  .title {
+    font-size: 22px !important;
+    top: 3% !important;
+    left: 3% !important;
+  }
+
+  .card-image {
+    width: 100% !important;
+  }
+}
+
+.white-text {
+  color: white !important;
+}
+
+.logo.invert {
+  color: #f9f9f9;
+  background-color: rgb(202 91 13 / 87%);
+}
+
+.logo span {
+  font-family: CMU Bright, Inter, Avenir, Helvetica, Arial, sans-serif;
+  font-size: 24px;
+  transform: translateY(2px);
+  display: inline-block;
+}
+
 .logo:hover {
   filter: drop-shadow(0 0 2em #646cffaa);
 }
 .logo.react:hover {
   filter: drop-shadow(0 0 2em #61dafbaa);
+}
+
+.MuiBox-root {
+  background: transparent !important;
+}
+
+.title {
+  position: absolute;
+  top: 6%;
+  left: 3%;
+  font-size: 36px;
+  opacity: 0;
+  transition: all 1.5s ease;
+}
+
+.title.fade {
+  opacity: 1;
+  transform: translate(10px, 10px);
+}
+
+.card-image {
+  width: 80%;
 }
 
 @keyframes logo-spin {
